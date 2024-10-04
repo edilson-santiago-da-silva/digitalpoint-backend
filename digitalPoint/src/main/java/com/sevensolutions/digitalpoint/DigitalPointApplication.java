@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class DigitalPoint {
+public class DigitalPointApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DigitalPoint.class, args);
+        SpringApplication.run(DigitalPointApplication.class, args);
     }
 
     @Bean

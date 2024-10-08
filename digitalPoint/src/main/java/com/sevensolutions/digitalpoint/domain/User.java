@@ -1,22 +1,33 @@
 package com.sevensolutions.digitalpoint.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sevensolutions.digitalpoint.domain.enums.Profile;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "tb_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "PROFILES")
     private Set<Integer> profiles = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "collaborator")
+    private List<Point> points = new ArrayList<>();
 
     public User(){
         super();
@@ -58,7 +69,11 @@ public class User implements Serializable {
         return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
-   public void addProfile(Profile profile){
+    public List<Point> getPoints() {
+        return points;
+    }
+
+    public void addProfile(Profile profile){
         this.profiles.add(profile.getCode());
    }
 

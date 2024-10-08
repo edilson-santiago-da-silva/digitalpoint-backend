@@ -1,29 +1,50 @@
 package com.sevensolutions.digitalpoint.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalTime;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tb_point")
 public class Point implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String userName;
-    private Date day;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private Date workDay;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime entry;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime exitLaunch;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime entryLaunch;
+
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime exit;
+
+    @ManyToOne
+    @JoinColumn(name = "collaborator_id" )
+    private User collaborator;
 
     public Point() {
 
     }
 
-    public Point(Integer id, String userName, Date day, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit) {
+    public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit) {
         this.id = id;
         this.userName = userName;
-        this.day = day;
+        this.workDay = workDay;
         this.entry = entry;
         this.entryLaunch = entryLaunch;
         this.exitLaunch = exitLaunch;
@@ -46,12 +67,12 @@ public class Point implements Serializable {
         this.userName = userName;
     }
 
-    public Date getDay() {
-        return day;
+    public Date getWorkDay() {
+        return workDay;
     }
 
-    public void setDay(Date day) {
-        this.day = day;
+    public void setWorkDay(Date workDay) {
+        this.workDay = workDay;
     }
 
     public LocalTime getEntry() {
@@ -84,6 +105,14 @@ public class Point implements Serializable {
 
     public void setExit(LocalTime exit) {
         this.exit = exit;
+    }
+
+    public User getCollaborator() {
+        return collaborator;
+    }
+
+    public void setCollaborator(User collaborator) {
+        this.collaborator = collaborator;
     }
 
     public LocalTime getExtraHour(){

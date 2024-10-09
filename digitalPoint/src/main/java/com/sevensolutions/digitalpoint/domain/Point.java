@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -34,14 +34,14 @@ public class Point implements Serializable {
     private LocalTime exit;
 
     @ManyToOne
-    @JoinColumn(name = "collaborator_id" )
-    private User collaborator;
+    @JoinColumn(name = "user_id" )
+    private User user;
 
     public Point() {
 
     }
 
-    public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit) {
+    public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit, User user) {
         this.id = id;
         this.userName = userName;
         this.workDay = workDay;
@@ -49,6 +49,7 @@ public class Point implements Serializable {
         this.entryLaunch = entryLaunch;
         this.exitLaunch = exitLaunch;
         this.exit = exit;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -107,12 +108,12 @@ public class Point implements Serializable {
         this.exit = exit;
     }
 
-    public User getCollaborator() {
-        return collaborator;
+    public User getUser() {
+        return user;
     }
 
-    public void setCollaborator(User collaborator) {
-        this.collaborator = collaborator;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalTime getExtraHour(){

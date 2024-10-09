@@ -26,15 +26,15 @@ public class User implements Serializable {
     private Set<Integer> profile = new HashSet<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "collaborator")
-    private List<Point> points = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Point> point = new ArrayList<>();
 
-    public User(){
+    public User( ){
         super();
         addProfile(Profile.USER);
     }
 
-    public User(Integer id, String name, String password, Set<Integer> profiles) {
+    public User(Integer id, String name, String password) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -69,8 +69,12 @@ public class User implements Serializable {
         return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public List<Point> getPoints() {
-        return points;
+    public List<Point> getPoint() {
+        return point;
+    }
+
+    public void setPoint(List<Point> point){
+        this.point = point;
     }
 
     public void addProfile(Profile profile){

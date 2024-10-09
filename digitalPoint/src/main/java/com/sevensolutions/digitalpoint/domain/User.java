@@ -22,8 +22,8 @@ public class User implements Serializable {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "PROFILES")
-    private Set<Integer> profiles = new HashSet<>();
+    @CollectionTable(name = "PROFILE")
+    private Set<Integer> profile = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "collaborator")
@@ -66,7 +66,7 @@ public class User implements Serializable {
     }
 
     public Set<Profile> getProfiles() {
-        return profiles.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+        return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
     public List<Point> getPoints() {
@@ -74,7 +74,7 @@ public class User implements Serializable {
     }
 
     public void addProfile(Profile profile){
-        this.profiles.add(profile.getCode());
+        this.profile.add(profile.getCode());
    }
 
     @Override

@@ -66,7 +66,7 @@ public class User implements Serializable {
     }
 
     public Set<Profile> getProfiles() {
-        return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
+        return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
     }
 
     public List<Point> getPoint() {

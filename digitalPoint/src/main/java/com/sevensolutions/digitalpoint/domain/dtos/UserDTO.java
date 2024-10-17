@@ -2,7 +2,6 @@ package com.sevensolutions.digitalpoint.domain.dtos;
 
 import com.sevensolutions.digitalpoint.domain.User;
 import com.sevensolutions.digitalpoint.domain.enums.Profile;
-import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -15,7 +14,7 @@ public class UserDTO implements Serializable {
     protected Integer id;
     protected String name;
     protected String password;
-    private Set<Integer> profile = new HashSet<>();
+    protected Set<Integer> profile = new HashSet<>();
 
     public UserDTO() {
     }

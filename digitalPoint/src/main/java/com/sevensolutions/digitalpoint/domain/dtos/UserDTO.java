@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    protected Integer id;
-    protected String name;
-    protected String password;
-    protected Set<Integer> profile = new HashSet<>();
+    private Integer id;
+    private String name;
+    private String password;
+    private Set<Integer> profile = new HashSet<>();
 
     public UserDTO() {
     }

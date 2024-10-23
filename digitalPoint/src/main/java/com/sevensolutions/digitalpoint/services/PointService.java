@@ -6,6 +6,7 @@ import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundExcepti
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,5 +18,9 @@ public class PointService {
     public Point findById(Integer id){
         Optional<Point> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("object not found! id " + id ));
+    }
+
+    public List<Point> findAll(){
+        return repository.findAll();
     }
 }

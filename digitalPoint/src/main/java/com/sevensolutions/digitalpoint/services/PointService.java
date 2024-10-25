@@ -15,12 +15,17 @@ public class PointService {
     @Autowired
     private PointRepository repository;
 
+    public List<Point> findAll(){
+        return repository.findAll();
+    }
+
     public Point findById(Integer id){
         Optional<Point> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("object not found! id " + id ));
     }
 
-    public List<Point> findAll(){
-        return repository.findAll();
+    public void delete(Integer id) {
+        Point obj = findById(id);
+        repository.deleteById(id);
     }
 }

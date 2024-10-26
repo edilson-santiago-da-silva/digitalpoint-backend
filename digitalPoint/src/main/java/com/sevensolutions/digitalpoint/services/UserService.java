@@ -1,6 +1,7 @@
 package com.sevensolutions.digitalpoint.services;
 
 import com.sevensolutions.digitalpoint.domain.User;
+import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
 import com.sevensolutions.digitalpoint.repositores.UserRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    public User create(UserDTO objDTO) {
+        objDTO.setId(null);
+        User newObj = new User(objDTO);
+        return repository.save(newObj);
+    }
+
     public List<User> findAll() {
         return repository.findAll();
     }
@@ -28,7 +35,5 @@ public class UserService {
         User obj = findById(id);
         repository.deleteById(id);
     }
-
-
 
 }

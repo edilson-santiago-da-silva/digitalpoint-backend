@@ -2,6 +2,7 @@ package com.sevensolutions.digitalpoint.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
 import com.sevensolutions.digitalpoint.domain.enums.Profile;
 import jakarta.persistence.*;
 
@@ -29,16 +30,23 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Point> point = new ArrayList<>();
 
-    public User( ){
+    public User() {
         super();
         addProfile(Profile.USER);
     }
 
-    public User(Integer id, String name, String password) {
+    public User(Integer id, String name, String password){
+        super();
         this.id = id;
         this.name = name;
         this.password = password;
         addProfile(Profile.USER);
+    }
+
+    public User(UserDTO obj) {
+        this.id = obj.getId();
+        this.name = obj.getName();
+        this.password = obj.getPassword();
     }
 
     public Integer getId() {

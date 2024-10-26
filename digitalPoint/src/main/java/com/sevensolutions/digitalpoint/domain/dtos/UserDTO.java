@@ -17,13 +17,17 @@ public class UserDTO implements Serializable {
     private Set<Integer> profile = new HashSet<>();
 
     public UserDTO() {
+        super();
+        addProfile(Profile.USER);
     }
 
     public UserDTO(User obj) {
+        super();
         this.id = obj.getId();
         this.name = obj.getName();
         this.password = obj.getPassword();
         this.profile = obj.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
+        addProfile(Profile.USER);
     }
 
     public Integer getId() {

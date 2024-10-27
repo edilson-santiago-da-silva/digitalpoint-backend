@@ -1,10 +1,12 @@
 package com.sevensolutions.digitalpoint.services;
 
 import com.sevensolutions.digitalpoint.domain.Point;
+import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import com.sevensolutions.digitalpoint.repositores.PointRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,10 @@ public class PointService {
 
     @Autowired
     private PointRepository repository;
+
+    public Point create(@Validated PointDTO objDTO){
+        return repository.save(newPoint(objDTO));
+    }
 
     public List<Point> findAll(){
         return repository.findAll();
@@ -28,4 +34,23 @@ public class PointService {
         Point obj = findById(id);
         repository.deleteById(id);
     }
+
+    private Point newPoint(PointDTO obj) {
+
+        Point point = new Point();
+        if(obj.getId() != null){
+            point.setId(obj.getId());
+        }
+
+        point.setUserName(obj.getUserName());
+        point.setWorkDay(obj.getWorkDay());
+        point.setEntry(obj.getEntry());
+        point.setExitLaunch(obj.getExitLaunch());
+        point.setEntryLaunch(obj.getExitLaunch());
+        point.setExit(obj.getExit());
+
+        return point;
+    }
+
+
 }

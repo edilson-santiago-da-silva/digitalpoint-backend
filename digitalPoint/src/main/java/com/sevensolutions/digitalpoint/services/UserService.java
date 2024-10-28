@@ -6,6 +6,7 @@ import com.sevensolutions.digitalpoint.repositores.UserRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +30,13 @@ public class UserService {
     public User findById(Integer id){
         Optional<User> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("object not found! id " + id ));
+    }
+
+    public User update(Integer id, @Validated UserDTO objDTO){
+        objDTO.setId(id);
+        User oldObj = findById(id);
+        oldObj = new User(objDTO);
+        return repository.save(oldObj);
     }
 
     public void delete(Integer id) {

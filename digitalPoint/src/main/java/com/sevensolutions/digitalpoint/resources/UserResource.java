@@ -5,6 +5,7 @@ import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
 import com.sevensolutions.digitalpoint.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,6 +38,12 @@ public class UserResource {
     public ResponseEntity<User> findById(@PathVariable Integer id){
         User obj = service.findById(id);
         return ResponseEntity.ok().body(obj);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @Validated @RequestBody UserDTO objDTO){
+        User obj = service.update(id, objDTO);
+        return ResponseEntity.ok().body(new UserDTO(obj));
     }
 
     @DeleteMapping(value = "/{id}")

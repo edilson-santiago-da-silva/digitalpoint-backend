@@ -2,7 +2,6 @@ package com.sevensolutions.digitalpoint.resources;
 
 import com.sevensolutions.digitalpoint.domain.Point;
 import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
-import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
 import com.sevensolutions.digitalpoint.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -30,6 +30,13 @@ public class PointService {
         return obj.orElseThrow(() -> new ObjectNotFoundException("object not found! id " + id ));
     }
 
+    public Point update(Integer id, @Validated PointDTO objDTO) {
+        objDTO.setId(id);
+        Point oldObj = findById(id);
+        oldObj = newPoint(objDTO);
+        return repository.save(oldObj);
+    }
+
     public void delete(Integer id) {
         Point obj = findById(id);
         repository.deleteById(id);

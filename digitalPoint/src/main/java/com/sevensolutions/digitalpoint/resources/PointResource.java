@@ -40,6 +40,12 @@ public class PointResource {
         return ResponseEntity.ok().body(new PointDTO(obj));
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PointDTO> update(@PathVariable Integer id, @Validated @RequestBody PointDTO objDTO) {
+        Point newObj = service.update(id, objDTO);
+        return ResponseEntity.ok().body(new PointDTO(newObj));
+    }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<PointDTO> delete(@PathVariable Integer id){
         service.delete(id);

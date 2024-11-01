@@ -31,12 +31,10 @@ public class User implements Serializable {
     private List<Point> point = new ArrayList<>();
 
     public User() {
-        super();
         addProfile(Profile.USER);
     }
 
     public User(Integer id, String name, String password){
-        super();
         this.id = id;
         this.name = name;
         this.password = password;

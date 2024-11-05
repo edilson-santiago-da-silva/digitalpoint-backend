@@ -24,7 +24,7 @@ public class UserDTO implements Serializable {
         this.id = obj.getId();
         this.name = obj.getName();
         this.password = obj.getPassword();
-        this.profile = obj.getProfiles().stream().map(Profile::getCode).collect(Collectors.toSet());
+        this.profile = obj.getProfile().stream().map(x -> x.getCode()).collect(Collectors.toSet());
         addProfile(Profile.USER);
     }
 
@@ -52,8 +52,8 @@ public class UserDTO implements Serializable {
         this.password = password;
     }
 
-    public Set<Profile> getProfiles() {
-        return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
+    public Set<Profile> getProfile() {
+        return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
     public void addProfile(Profile profile){

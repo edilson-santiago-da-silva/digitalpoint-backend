@@ -45,6 +45,8 @@ public class User implements Serializable {
         this.id = obj.getId();
         this.name = obj.getName();
         this.password = obj.getPassword();
+        this.profile = obj.getProfile().stream().map(x -> x.getCode()).collect(Collectors.toSet());
+        addProfile(Profile.USER);
     }
 
     public Integer getId() {
@@ -71,8 +73,8 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<Profile> getProfiles() {
-        return profile.stream().map(Profile::toEnum).collect(Collectors.toSet());
+    public Set<Profile> getProfile() {
+        return profile.stream().map(x -> Profile.toEnum(x)).collect(Collectors.toSet());
     }
 
     public List<Point> getPoint() {

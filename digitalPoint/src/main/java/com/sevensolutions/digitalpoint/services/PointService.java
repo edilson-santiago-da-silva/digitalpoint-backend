@@ -1,6 +1,7 @@
 package com.sevensolutions.digitalpoint.services;
 
 import com.sevensolutions.digitalpoint.domain.Point;
+import com.sevensolutions.digitalpoint.domain.User;
 import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import com.sevensolutions.digitalpoint.repositores.PointRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
@@ -16,6 +17,9 @@ public class PointService {
 
     @Autowired
     private PointRepository repository;
+
+    @Autowired
+    private UserService userService;
 
     public Point create(@Validated PointDTO objDTO){
         return repository.save(newPoint(objDTO));
@@ -43,13 +47,14 @@ public class PointService {
     }
 
     private Point newPoint(PointDTO obj) {
+        User user = userService.findById(obj.getUserId());
 
         Point point = new Point();
         if(obj.getId() != null){
             point.setId(obj.getId());
         }
 
-        point.setUserName(obj.getUserName());
+        point.setUser(user);
         point.setWorkDay(obj.getWorkDay());
         point.setEntry(obj.getEntry());
         point.setExitLaunch(obj.getExitLaunch());

@@ -1,6 +1,7 @@
 package com.sevensolutions.digitalpoint.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -43,14 +44,15 @@ public class Point implements Serializable {
 
     public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit, User user) {
         this.id = id;
-        this.userName = userName;
         this.workDay = workDay;
+        this.userName = userName;
         this.entry = entry;
         this.entryLaunch = entryLaunch;
         this.exitLaunch = exitLaunch;
         this.exit = exit;
         this.user = user;
     }
+
 
     public Integer getId() {
         return id;

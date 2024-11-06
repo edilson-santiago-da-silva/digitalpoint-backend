@@ -2,6 +2,7 @@ package com.sevensolutions.digitalpoint.domain.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sevensolutions.digitalpoint.domain.Point;
+import com.sevensolutions.digitalpoint.domain.User;
 
 
 import java.io.Serializable;
@@ -12,6 +13,8 @@ public class PointDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
+
+    private Integer userId;
     private String userName;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -29,12 +32,14 @@ public class PointDTO implements Serializable {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime exit;
 
+
     public PointDTO() {
     }
 
     public PointDTO(Point obj) {
         this.id = obj.getId();
-        this.userName = obj.getUserName();
+        this.userId = obj.getUser().getId();
+        this.userName = obj.getUser().getName();
         this.workDay = obj.getWorkDay();
         this.entry = obj.getEntry();
         this.exitLaunch = obj.getExitLaunch();
@@ -48,6 +53,14 @@ public class PointDTO implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -97,4 +110,5 @@ public class PointDTO implements Serializable {
     public void setExit(LocalTime exit) {
         this.exit = exit;
     }
+
 }

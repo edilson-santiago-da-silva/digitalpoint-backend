@@ -1,10 +1,14 @@
 package com.sevensolutions.digitalpoint.services;
 
+import com.sevensolutions.digitalpoint.domain.Point;
 import com.sevensolutions.digitalpoint.domain.User;
+import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
+import com.sevensolutions.digitalpoint.repositores.PointRepository;
 import com.sevensolutions.digitalpoint.repositores.UserRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -16,6 +20,13 @@ public class UserService {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private PointRepository pointRepository;
+
+    @Autowired
+    @Lazy
+    private PointService pointService;
 
     public User create(UserDTO objDTO) {
         objDTO.setId(null);
@@ -36,12 +47,29 @@ public class UserService {
         objDTO.setId(id);
         User oldObj = findById(id);
         oldObj = new User(objDTO);
-        return repository.save(oldObj);
+
+        User updatedUser = repository.save(oldObj);
+
+        PointDTO pointDTO = new PointDTO();
+        pointDTO.setUserId(updatedUser.getId());
+        updateUserNamePoint(pointDTO);
+
+        return updatedUser;
     }
 
     public void delete(Integer id) {
         User obj = findById(id);
         repository.deleteById(id);
+    }
+
+    public void updateUserNamePoint(PointDTO obj){
+        User user = findById(obj.getUserId());
+        Point point = pointService.findById(user.getId());
+
+        point.setUserName(user.getName());
+
+        pointRepository.save(point);
+
     }
 
 }

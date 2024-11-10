@@ -24,10 +24,6 @@ public class UserService {
     @Autowired
     private PointRepository pointRepository;
 
-    @Autowired
-    @Lazy
-    private PointService pointService;
-
     public User create(UserDTO objDTO) {
         objDTO.setId(null);
         User newObj = new User(objDTO);
@@ -62,14 +58,16 @@ public class UserService {
         repository.deleteById(id);
     }
 
-    public void updateUserNamePoint(PointDTO obj){
+    public void updateUserNamePoint(PointDTO obj) {
         User user = findById(obj.getUserId());
-        Point point = pointService.findById(user.getId());
 
-        point.setUserName(user.getName());
+        // Procura o Point diretamente usando PointRepository
+        Optional<Point> pointOpt = pointRepository.findById(user.getId());
+        if (pointOpt.isPresent()) {
+            Point point = pointOpt.get();
+            point.setUserName(user.getName());
+            pointRepository.save(point); //
 
-        pointRepository.save(point);
-
+        }
     }
-
 }

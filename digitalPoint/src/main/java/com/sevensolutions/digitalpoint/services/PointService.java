@@ -53,8 +53,8 @@ public class PointService {
         if(obj.getId() != null){
             point.setId(obj.getId());
         }
-
         point.setUser(user);
+        point.setUserName(obj.getUserName());
         point.setWorkDay(obj.getWorkDay());
         point.setEntry(obj.getEntry());
         point.setExitLaunch(obj.getExitLaunch());
@@ -63,6 +63,5 @@ public class PointService {
 
         return point;
     }
-
 
 }

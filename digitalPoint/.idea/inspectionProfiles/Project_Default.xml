@@ -6,15 +6,36 @@
       <option name="ignoredModules">
         <list>
           <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
+          <option value="digitalPoint" />
         </list>
       </option>
       <option name="ignoredPackages">
         <list>
           <option value="org.xmlunit:xmlunit-core:2.9.1" />
+          <option value="org.springframework.security:spring-security-core:6.3.0" />
+          <option value="org.springframework.security:spring-security-web:6.3.0" />
+          <option value="mysql:mysql-connector-java:8.0.19" />
+          <option value="org.apache.tomcat.embed:tomcat-embed-core:10.1.24" />
+          <option value="org.springframework:spring-context:6.1.8" />
+          <option value="org.springframework:spring-web:6.1.8" />
+          <option value="org.springframework:spring-webmvc:6.1.8" />
         </list>
       </option>
       <option name="ignoredReasons">
         <list>
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
           <option value="Not exploitable" />
         </list>
       </option>

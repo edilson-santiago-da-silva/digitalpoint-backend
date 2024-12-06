@@ -6,6 +6,7 @@ import com.sevensolutions.digitalpoint.domain.enums.Profile;
 import com.sevensolutions.digitalpoint.repositores.PointRepository;
 import com.sevensolutions.digitalpoint.repositores.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -22,11 +23,14 @@ public class DBService {
     @Autowired
     private PointRepository pointRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     public void instanceDB() throws Exception {
-        User user1 = new User(null, "Bianca Santos","3427");
+        User user1 = new User(null, "Bianca Santos",encoder.encode("3427"));
         user1.addProfile(Profile.ADMIN);
-        User user2 = new User(null, "Gabriel Santana","4536");
-        User user3 = new User(null, "Lucas Simões","2745");
+        User user2 = new User(null, "Gabriel Santana",encoder.encode("3427"));
+        User user3 = new User(null, "Lucas Simões",encoder.encode("3427"));
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date workDay = dateFormat.parse("01/10/2024");

@@ -9,6 +9,7 @@ import com.sevensolutions.digitalpoint.repositores.UserRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -24,8 +25,12 @@ public class UserService {
     @Autowired
     private PointRepository pointRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     public User create(UserDTO objDTO) {
         objDTO.setId(null);
+        objDTO.setPassword(encoder.encode(objDTO.getPassword()));
         User newObj = new User(objDTO);
         return repository.save(newObj);
     }

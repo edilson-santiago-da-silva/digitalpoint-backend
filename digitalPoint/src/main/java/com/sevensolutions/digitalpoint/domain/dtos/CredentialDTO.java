@@ -3,7 +3,7 @@ package com.sevensolutions.digitalpoint.domain.dtos;
 public class CredentialDTO {
 
     private String name;
-    private String senha;
+    private String password;
 
     public String getName() {
         return name;
@@ -13,11 +13,11 @@ public class CredentialDTO {
         this.name = name;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getpassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setpassword(String password) {
+        this.password = password;
     }
 }

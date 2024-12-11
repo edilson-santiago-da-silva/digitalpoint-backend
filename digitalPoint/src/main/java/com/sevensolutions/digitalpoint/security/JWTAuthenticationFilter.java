@@ -28,22 +28,24 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        System.out.println("Autenticando no endpoint: " + request.getRequestURI());
         try {
             CredentialDTO creds = new ObjectMapper().readValue(request.getInputStream(), CredentialDTO.class);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(creds.getName(), creds.getpassword(), new ArrayList<>());
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            return  authentication;
+            return  authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new AuthenticationException("Erro ao processar as credenciais") {
+                private static final long serialVersionUID = 1L;
+            };
         }
     }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
        String username = ((UserSS) authResult.getPrincipal()).getUsername();
-       String token = jwtUtil.genereteToken(username);
+       String token = jwtUtil.generateToken(username);
        response.setHeader("access-control-expose-headers", "Authorization");
-       response.setHeader("Authorization", "Bearer" + token);
+       response.setHeader("Authorization", "Bearer " + token);
 
     }
 
@@ -60,8 +62,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         return "{"
                 + "\"timestamp\": " + date + ", "
                 + "\"status\": 401, "
-                + "\"error\": \"Não autorizado\", "
-                + "\"message\": \"Email ou senha inválidos\", "
+                + "\"error\": \"Unauthorized\", "
+                + "\"message\": \"User or Password invalid\", "
                 + "\"path\": \"/login\"}";
     }
 }

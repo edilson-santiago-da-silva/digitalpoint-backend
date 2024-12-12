@@ -5,6 +5,7 @@ import com.sevensolutions.digitalpoint.domain.dtos.UserDTO;
 import com.sevensolutions.digitalpoint.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,6 +21,7 @@ public class UserResource {
     @Autowired
     private UserService service;
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<UserDTO> create(@RequestBody UserDTO objDTO){
         User newObj = service.create(objDTO);

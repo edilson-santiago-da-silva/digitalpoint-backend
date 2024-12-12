@@ -1,6 +1,7 @@
 package com.sevensolutions.digitalpoint.config;
 
 import com.sevensolutions.digitalpoint.security.JWTAuthenticationFilter;
+import com.sevensolutions.digitalpoint.security.JWTAuthorizationFilter;
 import com.sevensolutions.digitalpoint.security.JWTUtil;
 import com.sevensolutions.digitalpoint.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -24,6 +27,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHERS = {"/h2-console/**", "/login"};
@@ -33,6 +37,9 @@ public class SecurityConfig {
 
     @Autowired
     private JWTUtil jwtUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
 
     @Bean
@@ -48,7 +55,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JWTAuthenticationFilter(authenticationManager,  jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JWTAuthenticationFilter(authenticationManager,  jwtUtil), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTAuthorizationFilter(authenticationManager, jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class);
         System.out.println("Configuração de endpoints públicos: " + Arrays.toString(PUBLIC_MATCHERS));
         return http.build();
     }

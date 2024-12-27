@@ -5,6 +5,7 @@ import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.Date;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -34,6 +35,8 @@ public class Point implements Serializable {
     @JsonFormat(pattern = "HH:mm")
     private LocalTime exit;
 
+    private Long minExtra;
+
     @ManyToOne
     @JoinColumn(name = "user_id" )
     private User user;
@@ -42,7 +45,7 @@ public class Point implements Serializable {
 
     }
 
-    public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit, User user) {
+    public Point(Integer id, String userName, Date workDay, LocalTime entry, LocalTime entryLaunch, LocalTime exitLaunch, LocalTime exit, Long minExtra, User user) {
         this.id = id;
         this.workDay = workDay;
         this.userName = userName;
@@ -50,6 +53,7 @@ public class Point implements Serializable {
         this.entryLaunch = entryLaunch;
         this.exitLaunch = exitLaunch;
         this.exit = exit;
+        this.minExtra = minExtra;
         this.user = user;
     }
 
@@ -110,16 +114,20 @@ public class Point implements Serializable {
         this.exit = exit;
     }
 
+    public Long getMinExtra() {
+        return minExtra;
+    }
+
+    public void setMinExtra(Long minExtra) {
+        this.minExtra = minExtra;
+    }
+
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public LocalTime getExtraHour(){
-        return LocalTime.now(); // Cálculo do metódo posteriormente
     }
 
     @Override
@@ -133,5 +141,17 @@ public class Point implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(id);
+    }
+
+    public long getExtraHour(LocalTime entry, LocalTime exitLaunch, LocalTime entryLaunch, LocalTime exit){
+        long workload = 440L;
+        long intervalPattern = 60L;
+        long extraHours = 0L;
+        long minTotal = Duration.between(entry, exit).toMinutes();
+
+        if ((minTotal - intervalPattern) > workload){
+            extraHours = minTotal - workload  - intervalPattern;
+        }
+        return extraHours;
     }
 }

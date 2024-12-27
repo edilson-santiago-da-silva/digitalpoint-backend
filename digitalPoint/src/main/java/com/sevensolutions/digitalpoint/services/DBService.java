@@ -27,24 +27,24 @@ public class DBService {
     private BCryptPasswordEncoder encoder;
 
     public void instanceDB() throws Exception {
-        User user1 = new User(null, "Bianca Santos",encoder.encode("3427"));
+        User user1 = new User(null, "Bianca Santos", encoder.encode("3427"));
         user1.addProfile(Profile.ADMIN);
-        User user2 = new User(null, "Gabriel Santana",encoder.encode("3427"));
-        User user3 = new User(null, "Lucas Simões",encoder.encode("3427"));
+
+        LocalTime entry = LocalTime.parse("10:00");
+        LocalTime entryLaunch = LocalTime.parse("12:00");
+        LocalTime exitLaunch = LocalTime.parse("13:00");
+        LocalTime exit = LocalTime.parse("18:40");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date workDay = dateFormat.parse("01/10/2024");
 
-        Point point1 = new Point(null, user1.getName(), workDay, LocalTime.parse("08:00"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), LocalTime.parse("15:00"), user1);
-        Point point2 = new Point(null, user2.getName(), workDay, LocalTime.parse("08:00"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), LocalTime.parse("15:00"), user2);
-        Point point3 = new Point(null, user3.getName(), workDay, LocalTime.parse("08:00"), LocalTime.parse("10:00"), LocalTime.parse("12:00"), LocalTime.parse("15:00"), user3);
+        Point tempPoint = new Point();
+        long minExtra = tempPoint.getExtraHour(entry, exitLaunch, entryLaunch, exit);
+
+        Point point1 = new Point(null, user1.getName(), workDay, entry, entryLaunch, exitLaunch, exit, minExtra, user1);
 
         userRepository.saveAll(Arrays.asList(user1));
-        userRepository.saveAll(Arrays.asList(user2));
-        userRepository.saveAll(Arrays.asList(user3));
 
         pointRepository.saveAll(Arrays.asList(point1));
-        pointRepository.saveAll(Arrays.asList(point2));
-        pointRepository.saveAll(Arrays.asList(point3));
     }
 }

@@ -6,9 +6,12 @@ import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import com.sevensolutions.digitalpoint.repositores.PointRepository;
 import com.sevensolutions.digitalpoint.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,4 +67,8 @@ public class PointService {
         return point;
     }
 
+    public Point SearchDate(Date workDay) {
+        return repository.findByWorkDay(workDay)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "point not Found for date!" + workDay));
+    }
 }

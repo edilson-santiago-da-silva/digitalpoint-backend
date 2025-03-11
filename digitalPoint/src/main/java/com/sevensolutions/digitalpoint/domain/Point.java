@@ -20,6 +20,7 @@ public class Point implements Serializable {
     private Integer id;
     private String userName;
 
+    @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date workDay;
 

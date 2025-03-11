@@ -4,12 +4,14 @@ import com.sevensolutions.digitalpoint.domain.Point;
 import com.sevensolutions.digitalpoint.domain.dtos.PointDTO;
 import com.sevensolutions.digitalpoint.services.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,4 +53,10 @@ public class PointResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/workday/{workDay}")
+    public ResponseEntity<Point> SearchDate(@PathVariable @DateTimeFormat (pattern = "dd-MM-yyyy") Date workDay) {
+        return ResponseEntity.ok(service.SearchDate(workDay));
+    }
+    
 }
